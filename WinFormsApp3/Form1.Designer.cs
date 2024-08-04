@@ -128,6 +128,7 @@
             _xyPlaneCheckBox.TabIndex = 21;
             _xyPlaneCheckBox.Text = "X-Y Plane";
             _xyPlaneCheckBox.UseVisualStyleBackColor = true;
+            _xyPlaneCheckBox.Click += _xyPlaneCheckBox_Click;
             // 
             // _xzPlaneCheckBox
             // 
@@ -138,6 +139,7 @@
             _xzPlaneCheckBox.TabIndex = 22;
             _xzPlaneCheckBox.Text = "X-Z Plane";
             _xzPlaneCheckBox.UseVisualStyleBackColor = true;
+            _xzPlaneCheckBox.Click += _xzPlaneCheckBox_Click;
             // 
             // _yzPlaneCheckBox
             // 
@@ -148,6 +150,7 @@
             _yzPlaneCheckBox.TabIndex = 23;
             _yzPlaneCheckBox.Text = "Y-Z Plane";
             _yzPlaneCheckBox.UseVisualStyleBackColor = true;
+            _yzPlaneCheckBox.Click += _yzPlaneCheckBox_Click;
             // 
             // label1
             // 
