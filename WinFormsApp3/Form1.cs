@@ -168,6 +168,7 @@ namespace WinFormsApp3
             _z2TextBox.Enabled = false;
             _tranformButton.Enabled = false;
         }
+
     }
 
 }

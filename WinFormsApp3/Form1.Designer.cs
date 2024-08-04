@@ -56,6 +56,7 @@
             _resetButton = new Button();
             _tranformButton = new Button();
             label10 = new Label();
+            label11 = new Label();
             SuspendLayout();
             // 
             // _x1TextBox
@@ -75,7 +76,7 @@
             // _label1
             // 
             _label1.AutoSize = true;
-            _label1.ForeColor = Color.White;
+            _label1.ForeColor = Color.Black;
             _label1.Location = new Point(867, 9);
             _label1.Name = "_label1";
             _label1.Size = new Size(98, 20);
@@ -85,7 +86,7 @@
             // _label3
             // 
             _label3.AutoSize = true;
-            _label3.ForeColor = Color.White;
+            _label3.ForeColor = Color.Black;
             _label3.Location = new Point(873, 287);
             _label3.Name = "_label3";
             _label3.Size = new Size(54, 20);
@@ -95,7 +96,7 @@
             // _label4
             // 
             _label4.AutoSize = true;
-            _label4.ForeColor = Color.White;
+            _label4.ForeColor = Color.Black;
             _label4.Location = new Point(873, 326);
             _label4.Name = "_label4";
             _label4.Size = new Size(54, 20);
@@ -314,12 +315,23 @@
             label10.TabIndex = 39;
             label10.Text = "--------------------------";
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.ForeColor = Color.Black;
+            label11.Location = new Point(25, 483);
+            label11.Name = "label11";
+            label11.Size = new Size(336, 20);
+            label11.TabIndex = 40;
+            label11.Text = "Red line: x-axis, Green line: y-axis, Blue line: z-axis";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
-            ClientSize = new Size(1034, 498);
+            ClientSize = new Size(1034, 512);
+            Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(_tranformButton);
             Controls.Add(_resetButton);
@@ -386,5 +398,6 @@
         private Button _resetButton;
         private Button _tranformButton;
         private Label label10;
+        private Label label11;
     }
 }
