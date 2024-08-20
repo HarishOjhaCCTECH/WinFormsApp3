@@ -9,13 +9,14 @@ namespace WinFormsApp3
     static internal class Transformation
     {
         // rotating polygon about x axis
-        private const double _90Deg = Math.PI / 2;
-        public static Point3D[] RotateX(Point3D[] polygon) 
+        
+        public static Point3D[] RotateX(Point3D[] polygon, double angleInDegree) 
         {
+            double angleInRadian = (Math.PI / 180)*angleInDegree;
             float[][] rotationMatrix = [
-                [1, 0, 0],
-                [0, 0, -1],
-                [0, 1, 0]
+                [1,0,0],
+                [0,(float)Math.Cos(angleInRadian), (float)-Math.Sin(angleInRadian)],
+                [0,(float)Math.Sin(angleInRadian), (float)Math.Cos(angleInRadian)]
             ];
 
             
@@ -34,12 +35,15 @@ namespace WinFormsApp3
         }
 
         // rotating polygon about y axis
-        public static Point3D[] RotateY(Point3D[] polygon)
+        [Obsolete("This method is deprecated, use RotateY instead")]
+        public static Point3D[] RotateY(Point3D[] polygon, double angleInDegree)
         {
+            double angleInRadian = (Math.PI / 180) * angleInDegree;
             float[][] rotationMatrix = [
-                [0, 0, 1],
-                [0, 1, 0],
-                [-1, 0, 0]
+                [(float)Math.Cos(angleInRadian), 0, (float)Math.Sin(angleInRadian)],
+                [0,1,0],
+                [(float)-Math.Sin(angleInRadian), 0, (float)Math.Cos(angleInRadian)],
+
             ];
 
 
@@ -59,12 +63,14 @@ namespace WinFormsApp3
         }
 
         // rotating polygon about z axis
-        public static Point3D[] RotateZ(Point3D[] polygon)
+        public static Point3D[] RotateZ(Point3D[] polygon, double angleInDegree)
         {
+            double angleInRadian = (Math.PI / 180) * angleInDegree;
             float[][] rotationMatrix = [
-                [0, -1, 0],
-                [1, 0, 0],
-                [0, 0, 1]
+                [(float)Math.Cos(angleInRadian), (float)-Math.Sin(angleInRadian),0],
+                [0,(float)Math.Sin(angleInRadian), (float)Math.Cos(angleInRadian), 0],
+                [0,0,1]
+
             ];
 
 
@@ -81,6 +87,15 @@ namespace WinFormsApp3
             }
 
             return tempPoints;
+        }
+        public static void Scale(List<Point3D> polygon, float scale)
+        {
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                polygon[i].X *= scale;
+                polygon[i].Y *= scale;
+                polygon[i].Z *= scale;
+            }
         }
     }
 }

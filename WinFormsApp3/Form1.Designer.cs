@@ -57,6 +57,13 @@
             _tranformButton = new Button();
             label10 = new Label();
             label11 = new Label();
+            button1 = new Button();
+            _rotateXButton = new Button();
+            _rotateYButton = new Button();
+            _rotateZButton = new Button();
+            _reverseRotateYButton = new Button();
+            _reverseRotateXButton = new Button();
+            _reverseRotateZButton = new Button();
             SuspendLayout();
             // 
             // _x1TextBox
@@ -287,7 +294,7 @@
             // 
             // _resetButton
             // 
-            _resetButton.Location = new Point(873, 447);
+            _resetButton.Location = new Point(867, 447);
             _resetButton.Name = "_resetButton";
             _resetButton.Size = new Size(150, 29);
             _resetButton.TabIndex = 37;
@@ -325,12 +332,89 @@
             label11.TabIndex = 40;
             label11.Text = "Red line: x-axis, Green line: y-axis, Blue line: z-axis";
             // 
+            // button1
+            // 
+            button1.Location = new Point(411, 482);
+            button1.Name = "button1";
+            button1.Size = new Size(150, 29);
+            button1.TabIndex = 41;
+            button1.Text = "upload .xyz file";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // _rotateXButton
+            // 
+            _rotateXButton.Location = new Point(567, 483);
+            _rotateXButton.Name = "_rotateXButton";
+            _rotateXButton.Size = new Size(88, 29);
+            _rotateXButton.TabIndex = 42;
+            _rotateXButton.Text = "Rotate X";
+            _rotateXButton.UseVisualStyleBackColor = true;
+            _rotateXButton.Click += _rotateXButton_Click;
+            // 
+            // _rotateYButton
+            // 
+            _rotateYButton.Location = new Point(567, 518);
+            _rotateYButton.Name = "_rotateYButton";
+            _rotateYButton.Size = new Size(88, 29);
+            _rotateYButton.TabIndex = 43;
+            _rotateYButton.Text = "Rotate Y";
+            _rotateYButton.UseVisualStyleBackColor = true;
+            _rotateYButton.Click += _rotateYButton_Click;
+            // 
+            // _rotateZButton
+            // 
+            _rotateZButton.Location = new Point(567, 553);
+            _rotateZButton.Name = "_rotateZButton";
+            _rotateZButton.Size = new Size(88, 29);
+            _rotateZButton.TabIndex = 44;
+            _rotateZButton.Text = "Rotate Z";
+            _rotateZButton.UseVisualStyleBackColor = true;
+            _rotateZButton.Click += _rotateZButton_Click;
+            // 
+            // _reverseRotateYButton
+            // 
+            _reverseRotateYButton.Location = new Point(661, 518);
+            _reverseRotateYButton.Name = "_reverseRotateYButton";
+            _reverseRotateYButton.Size = new Size(133, 29);
+            _reverseRotateYButton.TabIndex = 46;
+            _reverseRotateYButton.Text = "Reverse Rotate Y";
+            _reverseRotateYButton.UseVisualStyleBackColor = true;
+            _reverseRotateYButton.Click += _reverseRotateYButton_Click;
+            // 
+            // _reverseRotateXButton
+            // 
+            _reverseRotateXButton.Location = new Point(661, 483);
+            _reverseRotateXButton.Name = "_reverseRotateXButton";
+            _reverseRotateXButton.Size = new Size(133, 29);
+            _reverseRotateXButton.TabIndex = 45;
+            _reverseRotateXButton.Text = "Reverse Rotate X";
+            _reverseRotateXButton.UseVisualStyleBackColor = true;
+            _reverseRotateXButton.Click += _reverseRotateXButton_Click;
+            // 
+            // _reverseRotateZButton
+            // 
+            _reverseRotateZButton.Location = new Point(661, 553);
+            _reverseRotateZButton.Name = "_reverseRotateZButton";
+            _reverseRotateZButton.Size = new Size(133, 29);
+            _reverseRotateZButton.TabIndex = 47;
+            _reverseRotateZButton.Text = "Reverse Rotate Z";
+            _reverseRotateZButton.UseVisualStyleBackColor = true;
+            _reverseRotateZButton.Click += _reverseRotateZButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
-            ClientSize = new Size(1034, 512);
+            ClientSize = new Size(1037, 596);
+            Controls.Add(_reverseRotateZButton);
+            Controls.Add(_reverseRotateYButton);
+            Controls.Add(_reverseRotateXButton);
+            Controls.Add(_rotateZButton);
+            Controls.Add(_rotateYButton);
+            Controls.Add(_rotateXButton);
+            Controls.Add(button1);
             Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(_tranformButton);
@@ -399,5 +483,13 @@
         private Button _tranformButton;
         private Label label10;
         private Label label11;
+        private Button button1;
+        private Button _rotateXButton;
+        private Button _rotateYButton;
+        private Button _rotateZButton;
+        
+        private Button _reverseRotateYButton;
+        private Button _reverseRotateXButton;
+        private Button _reverseRotateZButton;
     }
 }

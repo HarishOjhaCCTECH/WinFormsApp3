@@ -53,14 +53,14 @@ namespace WinFormsApp3
         {
             if (DataStorage.planeNum == 1)
             {
-                DataStorage.transformedRectangle = new Rectangle (Transformation.RotateX(DataStorage.rectangle.Points()));
+                DataStorage.transformedRectangle = new Rectangle (Transformation.RotateX(DataStorage.rectangle.Points(), 90));
                 DataStorage.transformedRectangle.Length = DataStorage.rectangle.Length;
                 DataStorage.transformedRectangle.Height = DataStorage.rectangle.Height;
                 DataStorage.planeNum = 3;//converting plane number from xy to xz
             }
             else if (DataStorage.planeNum == 2)
             {
-                DataStorage.transformedRectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points()));
+                DataStorage.transformedRectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(),90));
                 DataStorage.transformedRectangle.Length = DataStorage.rectangle.Length;
                 DataStorage.transformedRectangle.Height = DataStorage.rectangle.Height;
                 DataStorage.planeNum = 1;//converting plane number from yz to xy
@@ -68,7 +68,7 @@ namespace WinFormsApp3
             }
             else if (DataStorage.planeNum == 3)
             {
-                DataStorage.transformedRectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points()));
+                DataStorage.transformedRectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(),90));
                 DataStorage.transformedRectangle.Length = DataStorage.rectangle.Length;
                 DataStorage.transformedRectangle.Height = DataStorage.rectangle.Height;
                 DataStorage.planeNum = 2;//converting plane number from xz to yz
@@ -90,5 +90,36 @@ namespace WinFormsApp3
         {
             Circle.FindBorderPoints(DataStorage.transformedRectangle, DataStorage.planeNum, Form1.points3);
         }
+
+        public static List<Point3D> Read(string filePath)
+        {
+            return XYZReader.ReadXYZ(filePath);            
+        }
+
+        public static void RotateX()
+        {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), 10));
+        }
+        public static void RotateY() {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), 10));
+        }
+        public static void RotateZ()
+        {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), 10));
+        }
+
+        public static void ReverseRotateX()
+        {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), -10));
+        }
+        public static void ReverseRotateY() {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), -10));
+        }
+        public static void ReverseRotateZ()
+        {
+            DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), -10));
+        }
+
+
     }
 }
