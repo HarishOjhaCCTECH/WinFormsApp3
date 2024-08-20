@@ -68,7 +68,7 @@ namespace WinFormsApp3
             double angleInRadian = (Math.PI / 180) * angleInDegree;
             float[][] rotationMatrix = [
                 [(float)Math.Cos(angleInRadian), (float)-Math.Sin(angleInRadian),0],
-                [0,(float)Math.Sin(angleInRadian), (float)Math.Cos(angleInRadian), 0],
+                [(float)Math.Sin(angleInRadian), (float)Math.Cos(angleInRadian), 0],
                 [0,0,1]
 
             ];

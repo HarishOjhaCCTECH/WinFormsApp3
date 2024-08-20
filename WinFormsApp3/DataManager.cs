@@ -100,13 +100,15 @@ namespace WinFormsApp3
         {
             DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), 10));
         }
-        public static void RotateY() {
+        public static void RotateY() 
+        {
             DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), 10));
         }
         public static void RotateZ()
         {
             DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), 10));
         }
+
 
         public static void ReverseRotateX()
         {

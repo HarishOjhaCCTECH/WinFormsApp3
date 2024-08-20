@@ -29,6 +29,12 @@ namespace WinFormsApp3
             _z3TextBox.Enabled = false;
             _lengthTextBox.Enabled = false;
             _heightTextBox.Enabled = false;
+            _rotateXButton.Enabled = false;
+            _rotateYButton.Enabled = false;
+            _rotateZButton.Enabled = false;
+            _reverseRotateXButton.Enabled = false;
+            _reverseRotateYButton.Enabled = false;
+            _reverseRotateZButton.Enabled = false;
 
             _panel.Paint += new PaintEventHandler(Panel1_Paint);
         }
@@ -146,6 +152,12 @@ namespace WinFormsApp3
             _yzPlaneCheckBox.Enabled = false;
             _tranformButton.Enabled = true;
             _drawButton.Enabled = false;
+            _rotateXButton.Enabled = true;
+            _rotateYButton.Enabled = true;
+            _rotateZButton.Enabled = true;
+            _reverseRotateXButton.Enabled = true;
+            _reverseRotateYButton.Enabled = true;
+            _reverseRotateZButton.Enabled = true;
 
         }
 
