@@ -97,5 +97,6 @@ namespace WinFormsApp3
                 polygon[i].Z *= scale;
             }
         }
+
     }
 }

@@ -10,6 +10,7 @@ namespace WinFormsApp3
     {                
         public static void MakeRectangle(Point3D startPoint, float length, float height)
         {
+
             float x = startPoint.X;
             float y = startPoint.Y;
             float z = startPoint.Z;
@@ -45,7 +46,10 @@ namespace WinFormsApp3
             DataStorage.rectangle = new Rectangle(tempPoints);
             DataStorage.rectangle.Length = length;
             DataStorage.rectangle.Height = height;
+
         }
+
+
 
 
         // rotating rectangle about anyone axis
@@ -91,36 +95,115 @@ namespace WinFormsApp3
             Circle.FindBorderPoints(DataStorage.transformedRectangle, DataStorage.planeNum, Form1.points3);
         }
 
-        public static List<Point3D> Read(string filePath)
+        public static void Read()
         {
-            return XYZReader.ReadXYZ(filePath);            
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files (*.*)|*.*";
+            openFileDialog.Title = "Select a File";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                List<Point3D> temp = new List<Point3D>();
+                try
+                {
+                    temp = XYZReader.ReadXYZ(filePath);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Invalid file format", ex);
+                }
+
+                DataStorage.polygon3DPoints = temp.ToArray();
+                Form1.polygonPointsFloat = new PointF[DataStorage.polygon3DPoints.Length];
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+                
+            }
         }
 
+        #region Rotation code
         public static void RotateX()
         {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), 10));
+            if(0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), 10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if(null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateX(DataStorage.polygon3DPoints, 10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
+            
         }
-        public static void RotateY() 
+        public static void RotateY()
         {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), 10));
+            if (0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), 10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if (null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateY(DataStorage.polygon3DPoints, 10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
         }
         public static void RotateZ()
         {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), 10));
+            if (0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), 10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if (null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateZ(DataStorage.polygon3DPoints, 10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
+
         }
-
-
         public static void ReverseRotateX()
         {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), -10));
+            if (0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), -10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if (null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateX(DataStorage.polygon3DPoints, -10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
         }
-        public static void ReverseRotateY() {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), -10));
+        public static void ReverseRotateY()
+        {
+            if (0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), -10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if (null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateY(DataStorage.polygon3DPoints, -10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
         }
         public static void ReverseRotateZ()
         {
-            DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), -10));
+            if (0 != DataStorage.rectangle.Height)
+            {
+                DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), -10));
+                Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
+            }
+            if (null != DataStorage.polygon3DPoints)
+            {
+                DataStorage.polygon3DPoints = Transformation.RotateZ(DataStorage.polygon3DPoints, -10);
+                Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
+            }
         }
+        #endregion
 
 
     }

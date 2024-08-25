@@ -34,7 +34,9 @@
             _label3 = new Label();
             _label4 = new Label();
             _panel = new Panel();
-            _drawButton = new Button();
+            _zAxisLabel = new Label();
+            _yAxisLabel = new Label();
+            _xAxisLabel = new Label();
             _xyPlaneCheckBox = new CheckBox();
             _xzPlaneCheckBox = new CheckBox();
             _yzPlaneCheckBox = new CheckBox();
@@ -56,14 +58,15 @@
             _resetButton = new Button();
             _tranformButton = new Button();
             label10 = new Label();
+            _xyzReadButton = new Button();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            panel3 = new Panel();
             label11 = new Label();
-            button1 = new Button();
-            _rotateXButton = new Button();
-            _rotateYButton = new Button();
-            _rotateZButton = new Button();
-            _reverseRotateYButton = new Button();
-            _reverseRotateXButton = new Button();
-            _reverseRotateZButton = new Button();
+            label12 = new Label();
+            label13 = new Label();
+            label14 = new Label();
+            _panel.SuspendLayout();
             SuspendLayout();
             // 
             // _x1TextBox
@@ -112,20 +115,41 @@
             // 
             // _panel
             // 
+            _panel.Controls.Add(_zAxisLabel);
+            _panel.Controls.Add(_yAxisLabel);
+            _panel.Controls.Add(_xAxisLabel);
             _panel.Location = new Point(1, 1);
             _panel.Name = "_panel";
             _panel.Size = new Size(860, 475);
             _panel.TabIndex = 14;
+            _panel.Paint += _panel_Paint;
             // 
-            // _drawButton
+            // _zAxisLabel
             // 
-            _drawButton.Location = new Point(873, 377);
-            _drawButton.Name = "_drawButton";
-            _drawButton.Size = new Size(150, 29);
-            _drawButton.TabIndex = 19;
-            _drawButton.Text = "Draw";
-            _drawButton.UseVisualStyleBackColor = true;
-            _drawButton.Click += DrawButton_Click;
+            _zAxisLabel.AutoSize = true;
+            _zAxisLabel.Location = new Point(319, 312);
+            _zAxisLabel.Name = "_zAxisLabel";
+            _zAxisLabel.Size = new Size(16, 20);
+            _zAxisLabel.TabIndex = 5;
+            _zAxisLabel.Text = "z";
+            // 
+            // _yAxisLabel
+            // 
+            _yAxisLabel.AutoSize = true;
+            _yAxisLabel.Location = new Point(420, 189);
+            _yAxisLabel.Name = "_yAxisLabel";
+            _yAxisLabel.Size = new Size(16, 20);
+            _yAxisLabel.TabIndex = 4;
+            _yAxisLabel.Text = "y";
+            // 
+            // _xAxisLabel
+            // 
+            _xAxisLabel.AutoSize = true;
+            _xAxisLabel.Location = new Point(553, 312);
+            _xAxisLabel.Name = "_xAxisLabel";
+            _xAxisLabel.Size = new Size(16, 20);
+            _xAxisLabel.TabIndex = 3;
+            _xAxisLabel.Text = "x";
             // 
             // _xyPlaneCheckBox
             // 
@@ -322,100 +346,90 @@
             label10.TabIndex = 39;
             label10.Text = "--------------------------";
             // 
+            // _xyzReadButton
+            // 
+            _xyzReadButton.Location = new Point(411, 482);
+            _xyzReadButton.Name = "_xyzReadButton";
+            _xyzReadButton.Size = new Size(150, 29);
+            _xyzReadButton.TabIndex = 41;
+            _xyzReadButton.Text = "upload .xyz file";
+            _xyzReadButton.UseVisualStyleBackColor = true;
+            _xyzReadButton.Click += _xyzReadButton_Click;
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Location = new Point(804, 514);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(43, 52);
+            panel1.TabIndex = 48;
+            // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Location = new Point(878, 514);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(49, 52);
+            panel2.TabIndex = 49;
+            // 
+            // panel3
+            // 
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Location = new Point(957, 514);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(49, 52);
+            panel3.TabIndex = 49;
+            // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.ForeColor = Color.Black;
-            label11.Location = new Point(25, 483);
+            label11.Location = new Point(815, 486);
             label11.Name = "label11";
-            label11.Size = new Size(336, 20);
-            label11.TabIndex = 40;
-            label11.Text = "Red line: x-axis, Green line: y-axis, Blue line: z-axis";
+            label11.Size = new Size(16, 20);
+            label11.TabIndex = 50;
+            label11.Text = "x";
             // 
-            // button1
+            // label12
             // 
-            button1.Location = new Point(411, 482);
-            button1.Name = "button1";
-            button1.Size = new Size(150, 29);
-            button1.TabIndex = 41;
-            button1.Text = "upload .xyz file";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            label12.AutoSize = true;
+            label12.Location = new Point(980, 486);
+            label12.Name = "label12";
+            label12.Size = new Size(16, 20);
+            label12.TabIndex = 51;
+            label12.Text = "z";
             // 
-            // _rotateXButton
+            // label13
             // 
-            _rotateXButton.Location = new Point(567, 483);
-            _rotateXButton.Name = "_rotateXButton";
-            _rotateXButton.Size = new Size(88, 29);
-            _rotateXButton.TabIndex = 42;
-            _rotateXButton.Text = "Rotate X";
-            _rotateXButton.UseVisualStyleBackColor = true;
-            _rotateXButton.Click += _rotateXButton_Click;
+            label13.AutoSize = true;
+            label13.Location = new Point(894, 486);
+            label13.Name = "label13";
+            label13.Size = new Size(16, 20);
+            label13.TabIndex = 52;
+            label13.Text = "y";
             // 
-            // _rotateYButton
+            // label14
             // 
-            _rotateYButton.Location = new Point(567, 518);
-            _rotateYButton.Name = "_rotateYButton";
-            _rotateYButton.Size = new Size(88, 29);
-            _rotateYButton.TabIndex = 43;
-            _rotateYButton.Text = "Rotate Y";
-            _rotateYButton.UseVisualStyleBackColor = true;
-            _rotateYButton.Click += _rotateYButton_Click;
-            // 
-            // _rotateZButton
-            // 
-            _rotateZButton.Location = new Point(567, 553);
-            _rotateZButton.Name = "_rotateZButton";
-            _rotateZButton.Size = new Size(88, 29);
-            _rotateZButton.TabIndex = 44;
-            _rotateZButton.Text = "Rotate Z";
-            _rotateZButton.UseVisualStyleBackColor = true;
-            _rotateZButton.Click += _rotateZButton_Click;
-            // 
-            // _reverseRotateYButton
-            // 
-            _reverseRotateYButton.Location = new Point(661, 518);
-            _reverseRotateYButton.Name = "_reverseRotateYButton";
-            _reverseRotateYButton.Size = new Size(133, 29);
-            _reverseRotateYButton.TabIndex = 46;
-            _reverseRotateYButton.Text = "Reverse Rotate Y";
-            _reverseRotateYButton.UseVisualStyleBackColor = true;
-            _reverseRotateYButton.Click += _reverseRotateYButton_Click;
-            // 
-            // _reverseRotateXButton
-            // 
-            _reverseRotateXButton.Location = new Point(661, 483);
-            _reverseRotateXButton.Name = "_reverseRotateXButton";
-            _reverseRotateXButton.Size = new Size(133, 29);
-            _reverseRotateXButton.TabIndex = 45;
-            _reverseRotateXButton.Text = "Reverse Rotate X";
-            _reverseRotateXButton.UseVisualStyleBackColor = true;
-            _reverseRotateXButton.Click += _reverseRotateXButton_Click;
-            // 
-            // _reverseRotateZButton
-            // 
-            _reverseRotateZButton.Location = new Point(661, 553);
-            _reverseRotateZButton.Name = "_reverseRotateZButton";
-            _reverseRotateZButton.Size = new Size(133, 29);
-            _reverseRotateZButton.TabIndex = 47;
-            _reverseRotateZButton.Text = "Reverse Rotate Z";
-            _reverseRotateZButton.UseVisualStyleBackColor = true;
-            _reverseRotateZButton.Click += _reverseRotateZButton_Click;
+            label14.AutoSize = true;
+            label14.Location = new Point(645, 530);
+            label14.Name = "label14";
+            label14.Size = new Size(123, 20);
+            label14.TabIndex = 53;
+            label14.Text = "Scroll Rotater =>";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
-            ClientSize = new Size(1037, 596);
-            Controls.Add(_reverseRotateZButton);
-            Controls.Add(_reverseRotateYButton);
-            Controls.Add(_reverseRotateXButton);
-            Controls.Add(_rotateZButton);
-            Controls.Add(_rotateYButton);
-            Controls.Add(_rotateXButton);
-            Controls.Add(button1);
+            ClientSize = new Size(1033, 575);
+            Controls.Add(label14);
+            Controls.Add(label13);
+            Controls.Add(label12);
             Controls.Add(label11);
+            Controls.Add(panel3);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
+            Controls.Add(_xyzReadButton);
             Controls.Add(label10);
             Controls.Add(_tranformButton);
             Controls.Add(_resetButton);
@@ -436,7 +450,6 @@
             Controls.Add(_yzPlaneCheckBox);
             Controls.Add(_xzPlaneCheckBox);
             Controls.Add(_xyPlaneCheckBox);
-            Controls.Add(_drawButton);
             Controls.Add(_panel);
             Controls.Add(_label4);
             Controls.Add(_label3);
@@ -447,6 +460,8 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            _panel.ResumeLayout(false);
+            _panel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -460,7 +475,6 @@
         private Label _label3;
         private Label _label4;
         private Panel _panel;
-        private Button _drawButton;
         private CheckBox _xyPlaneCheckBox;
         private CheckBox _xzPlaneCheckBox;
         private CheckBox _yzPlaneCheckBox;
@@ -482,14 +496,16 @@
         private Button _resetButton;
         private Button _tranformButton;
         private Label label10;
+        private Button _xyzReadButton;
+        private Panel panel1;
+        private Panel panel2;
+        private Panel panel3;
+        private Label _xAxisLabel;
+        private Label _zAxisLabel;
+        private Label _yAxisLabel;
         private Label label11;
-        private Button button1;
-        private Button _rotateXButton;
-        private Button _rotateYButton;
-        private Button _rotateZButton;
-        
-        private Button _reverseRotateYButton;
-        private Button _reverseRotateXButton;
-        private Button _reverseRotateZButton;
+        private Label label12;
+        private Label label13;
+        private Label label14;
     }
 }

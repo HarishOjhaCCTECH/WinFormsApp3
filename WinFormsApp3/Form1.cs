@@ -1,26 +1,46 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WinFormsApp3;
+
+
 
 namespace WinFormsApp3
 {
     public partial class Form1 : Form
     {
-        private bool buttonClicked = false;
 
-        private PointF[] points1 = new PointF[4];
+        public static PointF[] points1 = new PointF[4];
         private PointF[] points2 = new PointF[4];
         public static List<PointF[]> points3 = new List<PointF[]>();
-
-        private PointF[] polygonPoints = { };
-
+        public static PointF[] polygonPointsFloat;
+        private PointF _panelMidPoint;
+        private PointF[] _xAxis;
+        private PointF[] _yAxis;
+        private PointF[] _zAxis;
+        
 
 
         public Form1()
         {
             InitializeComponent();
+            _panelMidPoint = new PointF((int)(_panel.Width / 2f), (int)(_panel.Height / 2f));
+            DataStorage.paintPanelCenter = _panelMidPoint;
+
+            PointF origin = Point3D.Coordinates(0, 0, 0);
+            _xAxis = new PointF[] { origin, Point3D.Coordinates(50, 0, 0) };
+            _yAxis = new PointF[] { origin, Point3D.Coordinates(0, 50, 0) };
+            _zAxis = new PointF[] { origin, Point3D.Coordinates(0, 0, 50) };
+
+            _xAxisLabel.Location = new Point((int)Point3D.Coordinates(60, 0, 0).X, (int)Point3D.Coordinates(60, 0, 0).Y);
+            _yAxisLabel.Location = new Point((int)Point3D.Coordinates(0, 70, 0).X, (int)Point3D.Coordinates(0, 70, 0).Y);
+            _zAxisLabel.Location = new Point((int)Point3D.Coordinates(0, 0, 60).X, (int)Point3D.Coordinates(0, 0, 60).Y);
+
+
+
+
             _tranformButton.Enabled = false;
-            _drawButton.Enabled = false;
+
             _x1TextBox.Enabled = false;
             _y1TextBox.Enabled = false;
             _y2TextBox.Enabled = false;
@@ -29,60 +49,72 @@ namespace WinFormsApp3
             _z3TextBox.Enabled = false;
             _lengthTextBox.Enabled = false;
             _heightTextBox.Enabled = false;
-            _rotateXButton.Enabled = false;
-            _rotateYButton.Enabled = false;
-            _rotateZButton.Enabled = false;
-            _reverseRotateXButton.Enabled = false;
-            _reverseRotateYButton.Enabled = false;
-            _reverseRotateZButton.Enabled = false;
 
-            _panel.Paint += new PaintEventHandler(Panel1_Paint);
+            _heightTextBox.TextChanged += TextBox_NumbersFilled;
+            _lengthTextBox.TextChanged += TextBox_NumbersFilled;
+            panel1.MouseWheel += Panel1_MouseWheel;
+            panel2.MouseWheel += Panel2_MouseWheel;
+            panel3.MouseWheel += Panel3_MouseWheel;
+            _panel.Paint += new PaintEventHandler(_panel_Paint);
         }
 
-
-        private void Panel1_Paint(object sender, PaintEventArgs e)
+        #region Mouse Panels
+        private void Panel1_MouseWheel(object sender, MouseEventArgs e)
         {
-            // drawing three axes
-            e.Graphics.DrawLines(new Pen(Color.Red, 3), DataStorage.xAxis);
-            e.Graphics.DrawLines(new Pen(Color.Green, 3), DataStorage.yAxis);
-            e.Graphics.DrawLines(new Pen(Color.Blue, 3), DataStorage.zAxis);
-
-
-            if (buttonClicked)
+            if (e.Delta > 0)
             {
-                // making rectangle on screen
-                e.Graphics.DrawPolygon(new Pen(Color.White, 3), points1);
-
-
-                // making tranformed rectangle
-                e.Graphics.DrawPolygon(new Pen(Color.Aquamarine, 3), points2);
-
-
-                // making circles on screen
-                Pen redPen = new Pen(Color.Red, 3);
-                for (int i = 0; i < points3.Count; i++) { e.Graphics.DrawPolygon(redPen, points3[i]); }
-                redPen.Dispose();
-
-
+                DataManager.RotateX();
             }
-            // Check if polygonPoints is valid before drawing
-            if (polygonPoints != null && polygonPoints.Length >= 3)
+            else
             {
-                e.Graphics.DrawPolygon(new Pen(Color.Yellow, 3), polygonPoints);
+                DataManager.ReverseRotateX();
             }
+            _panel.Invalidate();
         }
 
-        private void Form1_Load(object sender, EventArgs e) { }
-
-        private void DrawButton_Click(object sender, EventArgs e)
+        private void Panel2_MouseWheel(object sender, MouseEventArgs e)
         {
-            buttonClicked = true;
-            DataStorage.panelMidPoint = new PointF((int)(_panel.Width / 2f), (int)(_panel.Height / 2f));
+            if (e.Delta > 0)
+            {
+                DataManager.RotateY();
+            }
+            else
+            {
+                DataManager.ReverseRotateY();
+            }
+            _panel.Invalidate();
+        }
 
-            DataStorage.xAxis = new PointF[] { Point3D.Coordinates(0, 0, 0), Point3D.Coordinates(50, 0, 0) };
-            DataStorage.yAxis = new PointF[] { Point3D.Coordinates(0, 0, 0), Point3D.Coordinates(0, 50, 0) };
-            DataStorage.zAxis = new PointF[] { Point3D.Coordinates(0, 0, 0), Point3D.Coordinates(0, 0, 50) };
+        private void Panel3_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                DataManager.RotateZ();
+            }
+            else
+            {
+                DataManager.ReverseRotateZ();
+            }
+            _panel.Invalidate();
+        }
+        #endregion
 
+        private void TextBox_NumbersFilled(object? sender, EventArgs e)
+        {
+            if (IsAllTextBoxFilledWithNumbers())
+            {
+                ExecuteDrawCommand();
+            }
+        }
+        private bool IsAllTextBoxFilledWithNumbers()
+        {
+            bool isHeightGiven = int.TryParse(_heightTextBox.Text, out _);
+            bool isLengthGiven = int.TryParse(_lengthTextBox.Text, out _);
+            return isHeightGiven && isLengthGiven;
+        }
+
+        private void ExecuteDrawCommand()
+        {
             float length, height;
             try
             {
@@ -95,7 +127,6 @@ namespace WinFormsApp3
             }
 
             Point3D rectStart = new Point3D(0, 0, 0);
-
 
             // determining the coordinates of rectangle
             if (_xyPlaneCheckBox.Checked)
@@ -129,10 +160,8 @@ namespace WinFormsApp3
                 DataManager.MakeRectangle(rectStart, length, height);
 
             }
-
-
-            // converting Point3D to pointf for drawing
             DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
+
 
 
             // Force the form to repaint and draw the rectangle
@@ -145,22 +174,42 @@ namespace WinFormsApp3
             _z2TextBox.Enabled = false;
             _x3TextBox.Enabled = false;
             _z3TextBox.Enabled = false;
-            _lengthTextBox.Enabled = false;
-            _heightTextBox.Enabled = false;
-            _xyPlaneCheckBox.Enabled = false;
-            _xzPlaneCheckBox.Enabled = false;
-            _yzPlaneCheckBox.Enabled = false;
             _tranformButton.Enabled = true;
-            _drawButton.Enabled = false;
-            _rotateXButton.Enabled = true;
-            _rotateYButton.Enabled = true;
-            _rotateZButton.Enabled = true;
-            _reverseRotateXButton.Enabled = true;
-            _reverseRotateYButton.Enabled = true;
-            _reverseRotateZButton.Enabled = true;
 
         }
 
+
+        private void _panel_Paint(object sender, PaintEventArgs e)
+        {
+            // drawing three axes
+            e.Graphics.DrawLines(new Pen(Color.Red, 3), _xAxis);
+            e.Graphics.DrawLines(new Pen(Color.Green, 3), _yAxis);
+            e.Graphics.DrawLines(new Pen(Color.Blue, 3), _zAxis);
+
+
+            // making rectangle on screen
+            e.Graphics.DrawPolygon(new Pen(Color.White, 3), points1);
+
+
+            // making tranformed rectangle
+            e.Graphics.DrawPolygon(new Pen(Color.Aquamarine, 3), points2);
+
+
+            // making circles on screen
+            Pen redPen = new Pen(Color.Red, 3);
+            for (int i = 0; i < points3.Count; i++) { e.Graphics.DrawPolygon(redPen, points3[i]); }
+            redPen.Dispose();
+
+
+
+            // Check if polygonPoints is valid before drawing
+            if (polygonPointsFloat != null && polygonPointsFloat.Length >= 3)
+            {
+                e.Graphics.DrawPolygon(new Pen(Color.Yellow, 3), polygonPointsFloat);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e) { }
 
         private void _resetButton_Click(object sender, EventArgs e)
         {
@@ -186,10 +235,12 @@ namespace WinFormsApp3
             }
         }
 
+        #region Plane CheckBoxes
         private void _xyPlaneCheckBox_Click(object sender, EventArgs e)
         {
-            _yzPlaneCheckBox.Enabled = false;
-            _xzPlaneCheckBox.Enabled = false;
+            points1 = new PointF[4];
+            _yzPlaneCheckBox.CheckState = CheckState.Unchecked;
+            _xzPlaneCheckBox.CheckState = CheckState.Unchecked;
 
             _x1TextBox.Enabled = true;
             _y1TextBox.Enabled = true;
@@ -197,116 +248,118 @@ namespace WinFormsApp3
             _z2TextBox.Enabled = false;
             _x3TextBox.Enabled = false;
             _z3TextBox.Enabled = false;
+
+            _y2TextBox.Clear();
+            _z2TextBox.Clear();
+            _x3TextBox.Clear();
+            _z3TextBox.Clear();
+
+            _lengthTextBox.Clear();
+            _heightTextBox.Clear();
+
             _lengthTextBox.Enabled = true;
             _heightTextBox.Enabled = true;
-            _drawButton.Enabled = true;
+
             _tranformButton.Enabled = false;
+            _panel.Invalidate();
         }
 
         private void _yzPlaneCheckBox_Click(object sender, EventArgs e)
         {
-            _xyPlaneCheckBox.Enabled = false;
-            _xzPlaneCheckBox.Enabled = false;
+            points1 = new PointF[4];
+            _xyPlaneCheckBox.CheckState = CheckState.Unchecked;
+            _xzPlaneCheckBox.CheckState = CheckState.Unchecked;
+
             _x1TextBox.Enabled = false;
             _y1TextBox.Enabled = false;
             _y2TextBox.Enabled = true;
             _z2TextBox.Enabled = true;
             _x3TextBox.Enabled = false;
             _z3TextBox.Enabled = false;
+
+            _x1TextBox.Clear();
+            _y1TextBox.Clear();
+            _x3TextBox.Clear();
+            _z3TextBox.Clear();
+
+            _lengthTextBox.Clear();
+            _heightTextBox.Clear();
+
             _lengthTextBox.Enabled = true;
             _heightTextBox.Enabled = true;
-            _drawButton.Enabled = true;
+            
             _tranformButton.Enabled = false;
+            _panel.Invalidate();
         }
 
         private void _xzPlaneCheckBox_Click(object sender, EventArgs e)
         {
-            _xyPlaneCheckBox.Enabled = false;
-            _yzPlaneCheckBox.Enabled = false;
+            points1 = new PointF[4];
+            _xyPlaneCheckBox.CheckState = CheckState.Unchecked;
+            _yzPlaneCheckBox.CheckState = CheckState.Unchecked;
+
             _x1TextBox.Enabled = false;
             _y1TextBox.Enabled = false;
             _y2TextBox.Enabled = false;
             _z2TextBox.Enabled = false;
             _x3TextBox.Enabled = true;
             _z3TextBox.Enabled = true;
+
+            _x1TextBox.Clear();
+            _y1TextBox.Clear();
+            _y2TextBox.Clear();
+            _z2TextBox.Clear();
+
+            _lengthTextBox.Clear();
+            _heightTextBox.Clear();
+
             _lengthTextBox.Enabled = true;
             _heightTextBox.Enabled = true;
-            _drawButton.Enabled = true;
+
             _tranformButton.Enabled = false;
+            _panel.Invalidate();
         }
+        #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private Form _popupForm; // Declare a private field to store the popup form
+        private void DisplayPopup(string message)
         {
-            DataStorage.panelMidPoint = new PointF((int)(_panel.Width / 2f), (int)(_panel.Height / 2f));
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "All Files (*.*)|*.*";
-            openFileDialog.Title = "Select a File";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            // Check if the popup form is already created
+            if (_popupForm == null || _popupForm.IsDisposed)
             {
-                string filePath = openFileDialog.FileName;
+                // Create a new form for the popup
+                _popupForm = new Form();
 
-                List<Point3D> temp = DataManager.Read(filePath);
-                polygonPoints = new PointF[temp.Count];
-                Transformation.Scale(temp, 50.0f);
-                DataManager.Convert3DtoFloat(temp.ToArray(), polygonPoints);
+                // Set the properties of the form
+                _popupForm.Text = "Popup";
+                _popupForm.Size = new Size(300, 200);
+                _popupForm.StartPosition = FormStartPosition.CenterScreen;
 
+                // Create a label to display the message
+                Label messageLabel = new Label();
+                messageLabel.Text = message;
+                messageLabel.Dock = DockStyle.Fill;
+                messageLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-
-                _panel.Invalidate();
-
+                // Add the label to the form
+                _popupForm.Controls.Add(messageLabel);
             }
+            else
+            {
+                // Update the message label of the existing popup form
+                Label messageLabel = (Label)_popupForm.Controls[0];
+                messageLabel.Text = message;
+            }
+
+            // Show the form as a non-modal dialog
+            _popupForm.Show();
         }
 
-
-
-        private void _rotateXButton_Click(object sender, EventArgs e)
+        private void _xyzReadButton_Click(object sender, EventArgs e)
         {
-            DataManager.RotateX();
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
+            DataManager.Read();
             _panel.Invalidate();
         }
 
-        private void _rotateYButton_Click(object sender, EventArgs e)
-        {
-            DataManager.RotateY();
-
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
-            _panel.Invalidate();
-        }
-
-        private void _rotateZButton_Click(object sender, EventArgs e)
-        {
-            DataManager.RotateZ();
-
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
-            _panel.Invalidate();
-        }
-
-        private void _reverseRotateXButton_Click(object sender, EventArgs e)
-        {
-            DataManager.ReverseRotateX();
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
-            _panel.Invalidate();
-        }
-
-
-
-
-        private void _reverseRotateYButton_Click(object sender, EventArgs e)
-        {
-            DataManager.ReverseRotateY();
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
-            _panel.Invalidate();
-        }
-
-        private void _reverseRotateZButton_Click(object sender, EventArgs e)
-        {
-            DataManager.ReverseRotateZ();
-            DataManager.Convert3DtoFloat(DataStorage.rectangle.Points(), points1);
-            _panel.Invalidate();
-        }
     }
-
 }

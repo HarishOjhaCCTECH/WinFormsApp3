@@ -15,9 +15,8 @@ namespace WinFormsApp3
 
         public static PointF Coordinates(float x, float y, float z)
         {
-            (float originX, float originY) = (DataStorage.panelMidPoint.X, DataStorage.panelMidPoint.Y);
             float sqrt3 = (float)Math.Sqrt(3);
-            return new PointF(DataStorage.panelMidPoint.X - z + x, DataStorage.panelMidPoint.Y - (y + ((-z - x) / (sqrt3))));
+            return new PointF(DataStorage.paintPanelCenter.X - z + x, DataStorage.paintPanelCenter.Y - (y + ((-z - x) / (sqrt3))));
         }
     }
 }
