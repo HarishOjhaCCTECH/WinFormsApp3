@@ -2,7 +2,7 @@
 using System.Drawing;
 namespace WinFormsApp3
 {
-    class Point3D
+    public class Point3D
     {
         private float _x, _y, _z;
 

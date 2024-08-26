@@ -6,52 +6,12 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp3
 {
-    static internal class DataManager
-    {                
-        public static void MakeRectangle(Point3D startPoint, float length, float height)
-        {
+    static public class DataManager
+    {
 
-            float x = startPoint.X;
-            float y = startPoint.Y;
-            float z = startPoint.Z;
-            Point3D[] tempPoints = new Point3D[4];
-            if (DataStorage.planeNum == 1) // xy plane, x is length, y is height
-            {
-                tempPoints = new Point3D[] {
-                    new Point3D(x, y, z),
-                    new Point3D(x + length, y, z),
-                    new Point3D(x + length, y + height, z),
-                    new Point3D(x, y + height, z)
-                };
+        public static ProcessRect MakeRectangle = Rectangle.Make;
 
-            } else if (DataStorage.planeNum == 2) // yz plane, z is length, y is height
-            {
-                tempPoints = new Point3D[] {
-                    new Point3D(x, y, z),
-                    new Point3D(x, y, z+length),
-                    new Point3D(x, y+height, z+length),
-                    new Point3D(x, y+height, z)
-                };
-
-            }else if (DataStorage.planeNum == 3) // xz plane, x is length, z is height
-            {
-                tempPoints = new Point3D[] {
-                    new Point3D(x, y, z),
-                    new Point3D(x+length, y, z),
-                    new Point3D(x+length, y, z+height),
-                    new Point3D(x, y, z+height)
-                };
-            }
-            
-            DataStorage.rectangle = new Rectangle(tempPoints);
-            DataStorage.rectangle.Length = length;
-            DataStorage.rectangle.Height = height;
-
-        }
-
-
-
-
+        
         // rotating rectangle about anyone axis
         public static void Transform()
         {
@@ -127,7 +87,10 @@ namespace WinFormsApp3
         {
             if(0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), 10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if(null != DataStorage.polygon3DPoints)
@@ -141,12 +104,18 @@ namespace WinFormsApp3
         {
             if (0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), 10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if (null != DataStorage.polygon3DPoints)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.polygon3DPoints = Transformation.RotateY(DataStorage.polygon3DPoints, 10);
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
             }
         }
@@ -154,12 +123,18 @@ namespace WinFormsApp3
         {
             if (0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), 10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if (null != DataStorage.polygon3DPoints)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.polygon3DPoints = Transformation.RotateZ(DataStorage.polygon3DPoints, 10);
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
             }
 
@@ -168,12 +143,18 @@ namespace WinFormsApp3
         {
             if (0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateX(DataStorage.rectangle.Points(), -10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if (null != DataStorage.polygon3DPoints)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.polygon3DPoints = Transformation.RotateX(DataStorage.polygon3DPoints, -10);
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.polygon3DPoints, Form1.polygonPointsFloat);
             }
         }
@@ -181,7 +162,10 @@ namespace WinFormsApp3
         {
             if (0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateY(DataStorage.rectangle.Points(), -10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if (null != DataStorage.polygon3DPoints)
@@ -194,7 +178,10 @@ namespace WinFormsApp3
         {
             if (0 != DataStorage.rectangle.Height)
             {
+                (float l, float h) = (DataStorage.rectangle.Length, DataStorage.rectangle.Height);
                 DataStorage.rectangle = new Rectangle(Transformation.RotateZ(DataStorage.rectangle.Points(), -10));
+                DataStorage.rectangle.Length = l;
+                DataStorage.rectangle.Height = h;
                 Convert3DtoFloat(DataStorage.rectangle.Points(), Form1.points1);
             }
             if (null != DataStorage.polygon3DPoints)
